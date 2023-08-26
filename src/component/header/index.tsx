@@ -1,4 +1,4 @@
-import { Group, Text, Header, Input } from "@mantine/core";
+import { Group, Text, Header, Input, Avatar } from "@mantine/core";
 import { IconSearch } from "@tabler/icons-react";
 import { useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
@@ -32,7 +32,8 @@ const HeaderComponent = ({ isTransparent, isSearch }: HeaderComponentProps) => {
         }}
         px="md"
       >
-        <Group sx={{ cursor: "pointer" }} align="center">
+        <Group sx={{ cursor: "pointer" }} align="center" spacing={4}>
+          <Avatar src={import.meta.env.VITE_APP_LOGO} />
           <Text fz={20} fw={700} onClick={() => navigation("/")}>
             {import.meta.env.VITE_APP_TITLE ?? "MY APP"}
           </Text>
