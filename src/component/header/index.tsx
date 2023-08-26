@@ -34,7 +34,7 @@ const HeaderComponent = ({ isTransparent, isSearch }: HeaderComponentProps) => {
       >
         <Group sx={{ cursor: "pointer" }} align="center">
           <Text fz={20} fw={700} onClick={() => navigation("/")}>
-            {import.meta.env.VITE_APP_TITLE ?? MY APP}
+            {import.meta.env.VITE_APP_TITLE ?? "MY APP"}
           </Text>
         </Group>
         {(isSearch || scrollPosition > 500) && (
