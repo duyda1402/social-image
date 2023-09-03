@@ -25,7 +25,6 @@ const SearchPage = () => {
 
   async function fetchData(page: number, qSearch: string) {
     try {
-      console.log("PAGE", page);
       const photosData = await searchPhotos({ page: page, query: qSearch });
       setPhotos((curPhotos) => curPhotos.concat(photosData.results));
       setTotalPages(photosData.total_pages);

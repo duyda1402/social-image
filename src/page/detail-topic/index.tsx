@@ -24,7 +24,6 @@ const DetailTopicPage = () => {
         const photosResult = await fetchPhotosTopicBySlug(params?.slug, {
           page,
         });
-        console.log("Photos data:", photosResult);
         setPhotos((curPhotos) => curPhotos.concat(photosResult));
         setIsLoading(false);
       }
@@ -34,7 +33,6 @@ const DetailTopicPage = () => {
   }
   useEffect(() => {
     if (params?.slug) {
-      console.log(0);
       setPhotos([]);
       setPage(0);
       fetchData(0);
@@ -43,7 +41,6 @@ const DetailTopicPage = () => {
 
   const handleLoadMore = () => {
     if (params?.slug) {
-      console.log("Loading more data for page:", page + 1);
       fetchData(page + 1);
       setPage(page + 1);
     }

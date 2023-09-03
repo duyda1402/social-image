@@ -26,7 +26,6 @@ const DetailUserPage = () => {
             page,
           }
         );
-        console.log("Photos data:", photosResult);
         setPhotos((curPhotos) => curPhotos.concat(photosResult));
         setIsLoading(false);
       }
@@ -37,7 +36,6 @@ const DetailUserPage = () => {
 
   useEffect(() => {
     if (params?.username) {
-      console.log(0);
       setPhotos([]);
       setPage(0);
       fetchData(0);
@@ -46,7 +44,6 @@ const DetailUserPage = () => {
 
   const handleLoadMore = () => {
     if (params?.username) {
-      console.log("Loading more data for page:", page + 1);
       fetchData(page + 1);
       setPage(page + 1);
     }

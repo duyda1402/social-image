@@ -1,11 +1,11 @@
-import { Container, Group, Text, Select, Loader, Center } from "@mantine/core";
-import PhotosGallery from "../../component/photos-gallery";
-import { Helmet } from "react-helmet";
+import { Container, Group, Loader, Select, Text } from "@mantine/core";
 import { useEffect, useState } from "react";
-import { Photo } from "../../interface";
-import { fetchPhotos } from "../../api";
+import { Helmet } from "react-helmet";
 import InfiniteScroll from "react-infinite-scroll-component";
+import { fetchPhotos } from "../../api";
 import EndLoadMore from "../../component/end-load-more";
+import PhotosGallery from "../../component/photos-gallery";
+import { Photo } from "../../interface";
 
 const HomePage = () => {
   const [photos, setPhotos] = useState<Photo[]>([]);
@@ -13,7 +13,6 @@ const HomePage = () => {
 
   async function fetchData(page: number) {
     try {
-      console.log("PAGE", page);
       const photosData = await fetchPhotos({ page: page });
       setPhotos((curPhoto) => curPhoto.concat(photosData));
     } catch (error) {
