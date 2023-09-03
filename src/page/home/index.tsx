@@ -1,8 +1,35 @@
-import { Container, Group, Text, Select } from "@mantine/core";
+import { Container, Group, Text, Select, Loader, Center } from "@mantine/core";
 import PhotosGallery from "../../component/photos-gallery";
 import { Helmet } from "react-helmet";
+import { useEffect, useState } from "react";
+import { Photo } from "../../interface";
+import { fetchPhotos } from "../../api";
+import InfiniteScroll from "react-infinite-scroll-component";
+import EndLoadMore from "../../component/end-load-more";
 
 const HomePage = () => {
+  const [photos, setPhotos] = useState<Photo[]>([]);
+  const [page, setPage] = useState<number>(0);
+
+  async function fetchData(page: number) {
+    try {
+      console.log("PAGE", page);
+      const photosData = await fetchPhotos({ page: page });
+      setPhotos((curPhoto) => curPhoto.concat(photosData));
+    } catch (error) {
+      console.error("Error fetching photos:", error);
+    }
+  }
+
+  useEffect(() => {
+    fetchData(0);
+  }, []);
+
+  const handleLoadMore = () => {
+    fetchData(page + 1);
+    setPage(page + 1);
+  };
+
   return (
     <>
       <Helmet>
@@ -19,7 +46,15 @@ const HomePage = () => {
             data={["Theo xu hướng", "Mới"]}
           />
         </Group>
-        <PhotosGallery />
+        <InfiniteScroll
+          dataLength={photos.length}
+          next={handleLoadMore}
+          hasMore={true}
+          loader={<Loader color="gray" />}
+          endMessage={<EndLoadMore />}
+        >
+          <PhotosGallery photos={photos} />
+        </InfiniteScroll>
       </Container>
     </>
   );

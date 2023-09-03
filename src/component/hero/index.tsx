@@ -62,8 +62,8 @@ const HeroComponent = (_props: Props) => {
   return (
     <div className={classes.hero}>
       <Container className={classes.container}>
-        <Stack align="center">
-          <Text color="white" fw={500} fz={30} w={500}>
+        <Stack align="center" maw={500}>
+          <Text color="white" fw={500} fz={30}>
             The best free stock photos, royalty free images & videos shared by
             creators.
           </Text>
@@ -72,7 +72,7 @@ const HeroComponent = (_props: Props) => {
             px={10}
             bg="white"
             sx={{ borderRadius: 8 }}
-            w={500}
+            w="100%"
           >
             <Input
               onKeyPress={(e) => {
@@ -84,7 +84,6 @@ const HeroComponent = (_props: Props) => {
               variant="unstyled"
               size="lg"
               placeholder="Search for free photos"
-              w={400}
             />
             <ActionIcon
               variant="transparent"

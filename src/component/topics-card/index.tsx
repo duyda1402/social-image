@@ -1,32 +1,32 @@
-import { Container, Group, Stack, Text, Image } from "@mantine/core";
-import { useNavigate } from "react-router-dom";
-import { formatNumber } from "../../utils";
+import { Container, Group, Image, Stack, Text } from "@mantine/core";
 import { useEffect, useState } from "react";
-import { CollectionsInterface } from "../../interface";
-import { fetchCollectionsList } from "../../api";
+import { TopicsInterface } from "../../interface";
+import { fetchTopicsList } from "../../api";
+import { formatNumber } from "../../utils";
+import { useNavigate } from "react-router-dom";
 
-const CollectionsList = () => {
-  const [collections, setCollections] = useState<CollectionsInterface[]>([]);
+const TopicsCard = () => {
+  const [topics, setTopics] = useState<TopicsInterface[]>([]);
   const [page, _setPage] = useState<number>(0);
   const navigate = useNavigate();
 
-  async function fetchCollectionsData() {
-    const collectionsData = await fetchCollectionsList({ page: page });
-    setCollections(collectionsData);
+  async function fetchTopicData() {
+    const topicsData = await fetchTopicsList({ page: page });
+    setTopics(topicsData);
   }
 
   useEffect(() => {
-    fetchCollectionsData();
+    fetchTopicData();
   }, []);
 
   return (
     <Container size="xl">
       <Stack>
         <Text fz={32} fw={500}>
-          Collections Suggest
+          Topics Suggest
         </Text>
         <Group position="apart">
-          {collections.map((item, index: number) => (
+          {topics.map((item, index: number) => (
             <Group
               w={500}
               position="apart"
@@ -35,15 +35,15 @@ const CollectionsList = () => {
               py={10}
               align="center"
               spacing={10}
-              onClick={() => navigate("/collections/" + item.id)}
+              onClick={() => navigate("/topics/" + item.slug)}
               sx={{
                 border: "5px solid #DBE4FF",
                 borderRadius: "15px",
                 cursor: "pointer",
               }}
             >
-              <Group w={250}>
-                <Text fz={20} fw={500} color="indigo" lineClamp={1}>
+              <Group>
+                <Text fz={20} fw={500} color="indigo">
                   {item.title}
                 </Text>
                 <Text color="indigo">({formatNumber(item.total_photos)})</Text>
@@ -53,7 +53,7 @@ const CollectionsList = () => {
                 height={100}
                 width={150}
                 src={item.cover_photo.urls.regular}
-                alt={item.title}
+                alt={item.slug}
               />
             </Group>
           ))}
@@ -63,4 +63,4 @@ const CollectionsList = () => {
   );
 };
 
-export default CollectionsList;
+export default TopicsCard;

@@ -1,0 +1,12 @@
+.label {
+     background-color: none;
+     color: black;
+     padding: 10px;
+     margin: 5px;
+     cursor: pointer;
+}
+
+.label.active {
+     background-color: #5C7CFA;
+     color: white;
+}

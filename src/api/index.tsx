@@ -28,6 +28,8 @@ type ParamSearchDto = {
   per_page?: number;
   page?: number;
   query?: string;
+  id?: string;
+  slug?: string;
   order_by?: "latest" | "relevant";
   collections?: string;
   content_filter?: "low" | "high";
@@ -60,5 +62,70 @@ export async function fetchProfileUser(username: string) {
 
 export async function fetchPhotoRandom() {
   const res = await apiUnsplash.get<any, Photo>("/photos/random");
+  return res;
+}
+
+export async function fetchTopicsList(params: FetchPhotoDto) {
+  const res = await apiUnsplash.get<any, any>("/topics", {
+    params: params,
+  });
+  return res;
+}
+export async function fetchATopics(slug: string) {
+  const res = await apiUnsplash.get<any, any>("/topics/" + slug);
+  return res;
+}
+
+export async function fetchPhotosTopicBySlug(
+  slug: string,
+  params?: FetchPhotoDto
+) {
+  const res = await apiUnsplash.get<any, any>(`/topics/${slug}/photos`, {
+    params: params,
+  });
+  return res;
+}
+
+export async function fetchCollectionsList(params: FetchPhotoDto) {
+  const res = await apiUnsplash.get<any, any>("/collections", {
+    params: params,
+  });
+  return res;
+}
+export async function fetchACollection(id: string) {
+  const res = await apiUnsplash.get<any, any>("/collections/" + id);
+  return res;
+}
+
+export async function fetchPhotosCollectionById(
+  id: string,
+  params?: FetchPhotoDto
+) {
+  const res = await apiUnsplash.get<any, any>(`/collections/${id}/photos`, {
+    params: params,
+  });
+  return res;
+}
+
+export async function fetchPhotosUserLikes(
+  username: string,
+  params?: FetchPhotoDto
+) {
+  const res = await apiUnsplash.get<any, any>(`/users/${username}/likes`, {
+    params: params,
+  });
+  return res;
+}
+
+export async function fetchPhotosUserCollections(
+  username: string,
+  params?: FetchPhotoDto
+) {
+  const res = await apiUnsplash.get<any, any>(
+    `/users/${username}/collections`,
+    {
+      params: params,
+    }
+  );
   return res;
 }

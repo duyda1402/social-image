@@ -32,10 +32,10 @@ const HeaderComponent = ({ isTransparent, isSearch }: HeaderComponentProps) => {
         }}
         px="md"
       >
-        <Group sx={{ cursor: "pointer" }} align="center" spacing={4}>
-          <Avatar src={import.meta.env.VITE_APP_LOGO} />
+        <Group sx={{ cursor: "pointer" }} align="center">
+          <Avatar src={import.meta.env.VITE_APP_LOGO} alt="logo" />
           <Text fz={20} fw={700} onClick={() => navigation("/")}>
-            {import.meta.env.VITE_APP_TITLE ?? "MY APP"}
+            {import.meta.env.VITE_APP_TITLE}
           </Text>
         </Group>
         {(isSearch || scrollPosition > 500) && (
@@ -58,7 +58,6 @@ const HeaderComponent = ({ isTransparent, isSearch }: HeaderComponentProps) => {
               variant="unstyled"
               size="sm"
               placeholder="Search for free photos"
-              w={300}
             />
             <IconSearch color="gray" />
           </Group>

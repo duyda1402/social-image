@@ -1,11 +1,52 @@
-import { Button, Container, Group, Select, Stack, Title } from "@mantine/core";
+import {
+  Button,
+  Container,
+  Group,
+  Loader,
+  Select,
+  Stack,
+  Title,
+} from "@mantine/core";
 import { Helmet } from "react-helmet";
 import { useNavigate, useParams } from "react-router-dom";
 import PhotosGallery from "../../component/photos-gallery";
 import { capitalizeWords } from "../../utils";
+import { useEffect, useState } from "react";
+import { Photo } from "../../interface";
+import { searchPhotos } from "../../api";
+import InfiniteScroll from "react-infinite-scroll-component";
+import EndLoadMore from "../../component/end-load-more";
 
 const SearchPage = () => {
   const params = useParams();
+  const [photos, setPhotos] = useState<Photo[]>([]);
+  const [page, setPage] = useState<number>(0);
+  const [totalPages, setTotalPages] = useState<number>(0);
+
+  async function fetchData(page: number, qSearch: string) {
+    try {
+      console.log("PAGE", page);
+      const photosData = await searchPhotos({ page: page, query: qSearch });
+      setPhotos((curPhotos) => curPhotos.concat(photosData.results));
+      setTotalPages(photosData.total_pages);
+    } catch (error) {
+      console.error("Error fetching photos:", error);
+    }
+  }
+
+  useEffect(() => {
+    if (params.qSearch) {
+      setPhotos(() => []);
+      fetchData(0, params.qSearch);
+    }
+  }, [params.qSearch]);
+
+  const handleLoadMore = () => {
+    if (params.qSearch) {
+      fetchData(page + 1, params.qSearch);
+      setPage(page + 1);
+    }
+  };
 
   return (
     <>
@@ -13,8 +54,8 @@ const SearchPage = () => {
         <title>{capitalizeWords(params.qSearch || "")} Photos</title>
       </Helmet>
       <Container size="xl">
-        <Stack>
-          <Group>Suggest Tag</Group>
+        <Stack mt="md">
+          {/* <Group>Suggest Tag</Group> */}
           <Group>
             <Title sx={{ textTransform: "capitalize" }}>
               Free {params.qSearch} Photos
@@ -28,7 +69,15 @@ const SearchPage = () => {
               data={["Theo xu hướng", "Mới"]}
             />
           </Group>
-          <PhotosGallery keySearch={params?.qSearch} />
+          <InfiniteScroll
+            dataLength={photos.length}
+            next={handleLoadMore}
+            hasMore={page + 1 <= totalPages}
+            loader={<Loader color="gray" />}
+            endMessage={<EndLoadMore />}
+          >
+            <PhotosGallery photos={photos} />
+          </InfiniteScroll>
         </Stack>
       </Container>
     </>
